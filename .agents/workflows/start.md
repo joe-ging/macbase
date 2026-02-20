@@ -10,6 +10,7 @@ Welcome back, Margot! Here are your available workflow commands:
 
 | Command | What it does |
 |---|---|
+| `/test` | 🧪 Run automated tests to verify app logic |
 | `/git-push` | 💾 Commit & push all changes to GitHub |
 | `/refactor` | 🧹 Run the refactoring checklist |
 | `/start-feature` | 🏗️ Save current work, then start building something new |
