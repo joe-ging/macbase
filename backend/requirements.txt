@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+python-chess
+requests
+beautifulsoup4
+stockfish
+pydantic
+python-multipart
+sqlalchemy

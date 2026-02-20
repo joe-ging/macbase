@@ -1,0 +1,178 @@
+/* ========================================
+   GRANDMASTER MAC - SOFT NEON MINIMALIST
+   Deep Charcoal & Neon Lime Design
+   ======================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap');
+
+:root {
+  font-family: 'Inter', system-ui, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Soft Neon Minimalist Palette */
+  --bg-deep: #0e1117;
+  --bg-dark: #161b22;
+  --bg-panel: rgba(13, 17, 23, 0.85);
+  /* Darker opacity for better text contrast */
+
+  --neon-lime: #ccff00;
+  --neon-lime-glow: rgba(204, 255, 0, 0.2);
+  --neon-lime-muted: rgba(204, 255, 0, 0.1);
+
+  --text-primary: #f0f6fc;
+  --text-secondary: #8b949e;
+  --text-muted: #484f58;
+
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  /* White subtle to show on charcoal */
+  --border-neon: rgba(204, 255, 0, 0.2);
+  --border-active: rgba(204, 255, 0, 0.4);
+
+  --blur-amount: blur(20px);
+  --shadow-main: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--bg-deep);
+  background-image:
+    radial-gradient(circle at 0% 0%, rgba(204, 255, 0, 0.03) 0%, transparent 50%),
+    radial-gradient(circle at 100% 100%, rgba(204, 255, 0, 0.03) 0%, transparent 50%);
+  background-attachment: fixed;
+  color: var(--text-primary);
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Outfit', sans-serif;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-deep);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-secondary);
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: var(--bg-panel);
+  backdrop-filter: var(--blur-amount);
+  -webkit-backdrop-filter: var(--blur-amount);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-main);
+  border-radius: 12px;
+  transition: border-color 0.3s ease;
+}
+
+.glass-panel:hover {
+  border-color: var(--border-neon);
+}
+
+/* Components */
+.btn-primary,
+button.primary {
+  background: var(--neon-lime);
+  color: #000;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px var(--neon-lime-glow);
+}
+
+.btn-primary:hover,
+button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px var(--neon-lime-glow);
+  filter: brightness(1.1);
+}
+
+.btn-secondary,
+button.secondary {
+  background: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  padding: 10px 24px;
+  border-radius: 8px;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover,
+button.secondary:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--text-secondary);
+}
+
+.text-neon {
+  color: var(--neon-lime);
+  text-shadow: 0 0 10px var(--neon-lime-glow);
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-neon {
+  background: var(--neon-lime-muted);
+  color: var(--neon-lime);
+  border: 1px solid var(--neon-lime);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
