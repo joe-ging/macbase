@@ -1,5 +1,7 @@
-from fastapi import FastAPI, HTTPException, Depends, Query, BackgroundTasks
+from fastapi import FastAPI, HTTPException, Depends, Query, BackgroundTasks, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.responses import FileResponse
 import uvicorn
 import os
 import requests
@@ -86,9 +88,6 @@ def get_issue_events(issue_num):
         print(f"Error fetching events for issue {issue_num}: {e}")
         return []
 
-@app.get("/")
-def read_root():
-    return {"status": "macbase Backend Running"}
 
 @app.get("/api/twic-issues")
 def get_twic_issues(limit: int = 15):
@@ -1080,3 +1079,51 @@ def delete_folder(folder_id: int, db: Session = Depends(get_db)):
     
     return {"status": "success", "message": "Folder deleted"}
 
+# ==========================================
+# Serve Frontend Static Files
+# ==========================================
+
+import sys
+if getattr(sys, 'frozen', False):
+    # If the application is run as a bundle, the PyInstaller bootloader
+    # extends the sys module by a flag frozen=True and sets the app 
+    # path into variable _MEIPASS'.
+    frontend_dist = os.path.join(sys._MEIPASS, "frontend_dist")
+else:
+    frontend_dist = os.path.join(os.path.dirname(__file__), "..", "frontend", "dist")
+
+if os.path.exists(frontend_dist):
+    app.mount("/assets", StaticFiles(directory=os.path.join(frontend_dist, "assets")), name="frontend_assets")
+    
+    # Also mount any other directories in dist if needed, like macbase DB or things in public folder
+    
+    # Serve index.html for root path specifically
+    @app.get("/")
+    async def serve_root():
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
+
+    # Catch-all route to serve the React SPA for any non-API routes
+    @app.get("/{full_path:path}")
+    async def serve_frontend(request: Request, full_path: str):
+        if full_path.startswith("api/"):
+            raise HTTPException(status_code=404, detail="API route not found")
+        
+        # If the requested file exists (like favicon.ico, vite.svg), serve it directly
+        file_path = os.path.join(frontend_dist, full_path)
+        if os.path.isfile(file_path):
+            return FileResponse(file_path)
+            
+        # Otherwise, return the index.html for client-side routing
+        return FileResponse(os.path.join(frontend_dist, "index.html"))
+
+if __name__ == "__main__":
+    import threading
+    import webbrowser
+    import time
+    
+    def open_browser():
+        time.sleep(2)
+        webbrowser.open("http://127.0.0.1:8000")
+        
+    threading.Thread(target=open_browser, daemon=True).start()
+    uvicorn.run(app, host="127.0.0.1", port=8000)

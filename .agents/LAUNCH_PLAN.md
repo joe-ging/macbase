@@ -198,7 +198,7 @@ DAY 2 — Sat Feb 22 (4 hrs) 🔧 IN PROGRESS
 │    - On submit: auto-redirects to direct DMG link   │
 │ ✅ Add live download counter to landing page        │
 │    - Fetches count from GitHub Releases API         │
-│ ⬜ Package unsigned DMG + test install              │
+│ ✅ Package unsigned DMG + test install              │
 │                                                     │
 │ Result: Downloadable app + landing page + count     │
 └─────────────────────────────────────────────────────┘
