@@ -35,7 +35,11 @@ app = FastAPI(title="macbase API")
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],  # Vite default port
+    allow_origins=[
+        "http://localhost:5173",   # Vite dev server
+        "http://localhost:8000",   # Production bundle
+        "http://127.0.0.1:8000",  # Production bundle (IP)
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -1138,7 +1142,7 @@ if __name__ == "__main__":
     
     def open_browser():
         time.sleep(2)
-        webbrowser.open("http://127.0.0.1:8000")
+        webbrowser.open("http://localhost:8000")
         
     threading.Thread(target=open_browser, daemon=True).start()
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="localhost", port=8000)
