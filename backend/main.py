@@ -17,7 +17,7 @@ import io
 import chess.pgn
 import asyncio
 
-app = FastAPI(title="Grandmaster-Mac API")
+app = FastAPI(title="macbase API")
 
 # Configure CORS
 app.add_middleware(
@@ -88,7 +88,7 @@ def get_issue_events(issue_num):
 
 @app.get("/")
 def read_root():
-    return {"status": "Grandmaster-Mac Backend Running"}
+    return {"status": "macbase Backend Running"}
 
 @app.get("/api/twic-issues")
 def get_twic_issues(limit: int = 15):
@@ -126,7 +126,7 @@ def get_twic_issues(limit: int = 15):
         headers = {
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         }
-        response = requests.get("https://theweekinchess.com/twic", headers=headers, timeout=15)
+        response = requests.get("https://theweekinchess.com/twic", headers=headers, timeout=8)
         response.raise_for_status()
         
         soup = BeautifulSoup(response.text, "html.parser")

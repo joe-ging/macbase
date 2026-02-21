@@ -2,7 +2,7 @@
 import sqlite3
 import os
 
-DB_PATH = "grandmaster_mac.db"
+DB_PATH = "macbase.db"
 
 def migrate():
     if not os.path.exists(DB_PATH):

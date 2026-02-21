@@ -8,7 +8,7 @@ import Insights from './pages/Insights';
 import Repertoire from './pages/Repertoire';
 import Analysis from './pages/Analysis';
 
-import Settings from './pages/Settings';
+// Settings page removed for v1 — engine config will be a modal in Analysis
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
               <Route path="/insights" element={<Insights />} />
               <Route path="/analysis" element={<Analysis />} />
               <Route path="/repertoire" element={<Repertoire />} />
-              <Route path="/settings" element={<Settings />} />
+
             </Routes>
           </ErrorBoundary>
         </main>

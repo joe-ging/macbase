@@ -124,7 +124,10 @@ const Dashboard = () => {
 
     const fetchIssues = () => {
         setLoadingIssues(true);
-        fetch(`http://localhost:8000/api/twic-issues?limit=15`)
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+
+        fetch(`http://localhost:8000/api/twic-issues?limit=15`, { signal: controller.signal })
             .then(res => res.json())
             .then(data => {
                 setTwicIssues(data);
@@ -133,11 +136,17 @@ const Dashboard = () => {
                 }
             })
             .catch(err => {
-                console.error('Failed to fetch TWIC issues:', err);
+                if (err.name === 'AbortError') {
+                    console.warn('TWIC fetch timed out after 10s');
+                } else {
+                    console.error('Failed to fetch TWIC issues:', err);
+                }
+                setTwicIssues([]); // Show empty state instead of spinning forever
             })
             .finally(() => {
+                clearTimeout(timeoutId);
                 setLoadingIssues(false);
-                fetchStats(); // Update stats as well
+                fetchStats();
             });
     };
 

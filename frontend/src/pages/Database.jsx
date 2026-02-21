@@ -95,7 +95,6 @@ const Database = () => {
         if (filters.player) params.append('player', filters.player);
         if (filters.min_elo) params.append('min_elo', filters.min_elo);
         if (filters.max_elo) params.append('max_elo', filters.max_elo);
-        if (filters.max_elo) params.append('max_elo', filters.max_elo);
         if (filters.eco) {
             // Check if it's a family
             const fam = OPENING_FAMILIES.find(f => f.name === filters.eco);

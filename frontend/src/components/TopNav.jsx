@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Database, BookOpen, Settings, Crown, TrendingUp } from 'lucide-react';
+import { LayoutDashboard, Database, BookOpen, TrendingUp } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 const TopNav = () => {
@@ -10,7 +10,6 @@ const TopNav = () => {
         { name: 'Database', path: '/database', icon: <Database size={18} /> },
         { name: 'Insights', path: '/insights', icon: <TrendingUp size={18} /> },
         { name: 'Repertoire', path: '/repertoire', icon: <BookOpen size={18} /> },
-        { name: 'Settings', path: '/settings', icon: <Settings size={18} /> },
     ];
 
     return (
@@ -40,8 +39,8 @@ const TopNav = () => {
                     textDecoration: 'none',
                 }}>
                     <div style={{
-                        width: '38px',
-                        height: '38px',
+                        width: '36px',
+                        height: '36px',
                         background: 'rgba(204, 255, 0, 0.05)',
                         border: '1px solid var(--neon-lime)',
                         borderRadius: '8px',
@@ -50,16 +49,16 @@ const TopNav = () => {
                         justifyContent: 'center',
                         boxShadow: '0 0 15px var(--neon-lime-glow)',
                     }}>
-                        <Crown size={22} color="var(--neon-lime)" />
+                        <span style={{ fontSize: '20px' }}>♞</span>
                     </div>
                     <span style={{
-                        fontSize: '22px',
-                        fontWeight: '600',
+                        fontSize: '21px',
+                        fontWeight: '500',
                         color: 'var(--text-primary)',
                         fontFamily: "'Outfit', sans-serif",
-                        letterSpacing: '-0.03em',
+                        letterSpacing: '-0.02em',
                     }}>
-                        Grandmaster <span className="text-neon" style={{ fontWeight: '400' }}>Mac</span>
+                        mac<span className="text-neon" style={{ fontWeight: '400' }}>base</span>
                     </span>
                 </Link>
 
