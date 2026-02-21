@@ -1,24 +1,12 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+
 a = Analysis(
     ['main.py'],
     pathex=[],
     binaries=[],
     datas=[('../frontend/dist', 'frontend_dist')],
-    hiddenimports=[
-        'uvicorn.logging',
-        'uvicorn.loops',
-        'uvicorn.loops.auto',
-        'uvicorn.protocols',
-        'uvicorn.protocols.http',
-        'uvicorn.protocols.http.auto',
-        'uvicorn.protocols.websockets',
-        'uvicorn.protocols.websockets.auto',
-        'uvicorn.lifespan',
-        'uvicorn.lifespan.on',
-        'sqlalchemy.sql.default_comparator',
-        'sqlalchemy.ext.baked',
-    ],
+    hiddenimports=['AppKit', 'Foundation', 'objc', 'uvicorn.logging', 'uvicorn.loops', 'uvicorn.loops.auto', 'uvicorn.protocols', 'uvicorn.protocols.http', 'uvicorn.protocols.http.auto', 'uvicorn.protocols.websockets', 'uvicorn.protocols.websockets.auto', 'uvicorn.lifespan', 'uvicorn.lifespan.on', 'sqlalchemy.sql.default_comparator', 'sqlalchemy.ext.baked'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -59,8 +47,13 @@ app = BUNDLE(
     coll,
     name='macbase.app',
     icon='macbase.icns',
-    bundle_identifier='com.joging.macbase',
+    bundle_identifier='com.joeging.macbase.v2',
     info_plist={
-        'LSUIElement': False
+        'CFBundlePackageType': 'APPL',
+        'LSUIElement': '0',
+        'LSBackgroundOnly': False,
+        'NSHighResolutionCapable': True,
+        'CFBundleName': 'macbase',
+        'CFBundleDisplayName': 'macbase',
     }
 )

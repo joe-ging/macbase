@@ -1147,17 +1147,47 @@ if __name__ == "__main__":
         in_use = s.connect_ex(('127.0.0.1', 8000)) == 0
     
     if in_use:
-        # App is already running in the background. Open browser and exit to prevent dual-bind crash.
-        webbrowser.open("http://localhost:8000")
+        webbrowser.open("http://127.0.0.1:8000")
         sys.exit(0)
-    
-    def open_browser():
-        time.sleep(2)
-        webbrowser.open("http://localhost:8000")
-        
-    threading.Thread(target=open_browser, daemon=True).start()
-    
+
+    # Native macOS Signal to stop the Dock Icon from bouncing
     try:
-        uvicorn.run(app, host="127.0.0.1", port=8000)
+        from AppKit import NSApplication, NSApp, NSObject, NSApplicationActivationPolicyRegular
+        from Foundation import NSLog
+        
+        class AppDelegate(NSObject):
+            def applicationDidFinishLaunching_(self, notification):
+                # This stops the bouncing!
+                NSLog("Macbase: Native app launched")
+                # Open browser after a short delay
+                threading.Timer(2.0, lambda: webbrowser.open("http://127.0.0.1:8000")).start()
+
+        # Initialize the native app
+        app_native = NSApplication.sharedApplication()
+        delegate = AppDelegate.alloc().init()
+        app_native.setDelegate_(delegate)
+        app_native.setActivationPolicy_(NSApplicationActivationPolicyRegular)
+
+        # Run the server in a background thread
+        def run_server():
+            try:
+                uvicorn.run(app, host="127.0.0.1", port=8000, log_level="info")
+            except Exception as e:
+                print(f"Server error: {e}")
+                sys.exit(1)
+
+        server_thread = threading.Thread(target=run_server, daemon=True)
+        server_thread.start()
+
+        # Start the native macOS event loop
+        # This keeps the app 'Alive' in the dock with a dot
+        app_native.run()
+
     except Exception as e:
-        print(f"Server error: {e}")
+        # Fallback for non-mac or missing pyobjc
+        print(f"Native launch failed, falling back: {e}")
+        def open_browser():
+            time.sleep(2)
+            webbrowser.open("http://127.0.0.1:8000")
+        threading.Thread(target=open_browser, daemon=True).start()
+        uvicorn.run(app, host="127.0.0.1", port=8000)
