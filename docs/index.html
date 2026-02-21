@@ -513,8 +513,8 @@
         // Fetch download count from GitHub API
         async function fetchDownloadCount() {
             try {
-                // Fetch releases from the public repo
-                const response = await fetch('https://api.github.com/repos/joe-ging/macbase/releases');
+                // Fetch releases with a cache buster timestamp
+                const response = await fetch(`https://api.github.com/repos/joe-ging/macbase/releases?t=${Date.now()}`);
                 if (!response.ok) return;
 
                 const releases = await response.json();
