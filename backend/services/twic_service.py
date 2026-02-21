@@ -9,12 +9,15 @@ from sqlalchemy.orm import Session
 from .database import SessionLocal, Game, init_db
 
 
+from pathlib import Path
+
 TWIC_BASE_URL = "https://theweekinchess.com/zips/"
 
 class TWICService:
-    def __init__(self, download_dir="data/downloads", db_dir="data/db"):
-        self.download_dir = download_dir
-        self.db_dir = db_dir
+    def __init__(self, download_dir=None, db_dir=None):
+        user_base = Path.home() / ".macbase"
+        self.download_dir = download_dir if download_dir else str(user_base / "data" / "downloads")
+        self.db_dir = db_dir if db_dir else str(user_base / "data" / "db")
         os.makedirs(self.download_dir, exist_ok=True)
         os.makedirs(self.db_dir, exist_ok=True)
 

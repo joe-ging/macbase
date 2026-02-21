@@ -3,7 +3,14 @@ from sqlalchemy import create_engine, Column, Integer, String, Text, Date, Forei
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-DATABASE_URL = "sqlite:///./macbase.db"
+import os
+from pathlib import Path
+
+# Use a permanent location in the user's home directory so it's not tied to App Bundle
+USER_DIR = Path.home() / ".macbase"
+USER_DIR.mkdir(parents=True, exist_ok=True)
+
+DATABASE_URL = f"sqlite:///{USER_DIR}/macbase.db"
 
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
