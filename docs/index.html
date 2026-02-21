@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>macbase — Free Chess Analysis for Mac</title>
+    <meta name="description"
+        content="The ChessBase alternative Mac users have been waiting for. Local-first, Stockfish-powered, totally free. Analyze games, build repertoires, study openings.">
+    <meta name="keywords" content="chess, mac, chessbase, analysis, stockfish, opening, repertoire, pgn, free">
+    <meta property="og:title" content="macbase — Free Chess Analysis for Mac">
+    <meta property="og:description"
+        content="Local-first chess analysis built natively for Mac. Stockfish engine, 88K+ games database, repertoire builder.">
+    <meta property="og:type" content="website">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="#" class="logo">
+                <span class="logo-icon">♞</span>
+                <span class="logo-text">mac<span class="text-neon">base</span></span>
+            </a>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#compare">vs ChessBase</a>
+                <a href="https://github.com/joe-ging/macbase" target="_blank">GitHub</a>
+                <a href="#download" class="btn-download-nav">Download</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-badge">OPEN SOURCE · LOCAL-FIRST · FREE</div>
+        <h1 class="hero-title">
+            Chess analysis<br>
+            <span class="text-neon">built for Mac.</span>
+        </h1>
+        <p class="hero-subtitle">
+            The ChessBase alternative Mac users have been waiting for.<br>
+            Stockfish engine. 88,000+ game database. Repertoire builder.<br>
+            <strong>100% local. No cloud. No subscription.</strong>
+        </p>
+        <div class="hero-cta">
+            <a href="https://github.com/joe-ging/macbase/releases" class="btn-primary" id="download">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Download for Mac
+            </a>
+            <a href="https://github.com/joe-ging/macbase" class="btn-secondary" target="_blank">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+                </svg>
+                View on GitHub
+            </a>
+        </div>
+        <p class="hero-note">macOS 12+ · Apple Silicon & Intel · Unsigned DMG (see install guide)</p>
+    </section>
+
+    <!-- Screenshot Preview -->
+    <section class="screenshot-section">
+        <div class="screenshot-wrapper">
+            <div class="screenshot-placeholder" id="app-screenshot">
+                <div class="screenshot-mock">
+                    <div class="mock-titlebar">
+                        <div class="mock-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="mock-title">macbase</span>
+                    </div>
+                    <div class="mock-content">
+                        <div class="mock-sidebar">
+                            <div class="mock-nav-item active">Dashboard</div>
+                            <div class="mock-nav-item">Database</div>
+                            <div class="mock-nav-item">Analysis</div>
+                            <div class="mock-nav-item">Repertoire</div>
+                            <div class="mock-nav-item">Insights</div>
+                        </div>
+                        <div class="mock-main">
+                            <div class="mock-header">Command Center</div>
+                            <div class="mock-grid">
+                                <div class="mock-card wide">
+                                    <div class="mock-card-title">The Week in Chess</div>
+                                    <div class="mock-table-row"><span class="text-neon">1631</span><span>LATEST</span>
+                                    </div>
+                                    <div class="mock-table-row"><span>1630</span><span>7,091 games</span></div>
+                                    <div class="mock-table-row"><span>1629</span><span>6,060 games</span></div>
+                                </div>
+                                <div class="mock-card">
+                                    <div class="mock-card-title">Database Health</div>
+                                    <div class="mock-big-number">88,801</div>
+                                    <div class="mock-label">ACTIVE GAMES</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="section-header">
+            <div class="section-badge">FEATURES</div>
+            <h2>Everything you need.<br><span class="text-neon">Nothing you don't.</span></h2>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Stockfish Engine</h3>
+                <p>Multi-PV analysis with depth 15+. Get top 3 engine lines, evaluation bar, and cloud eval from Lichess
+                    — all running locally on your Mac.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>88,000+ Game Database</h3>
+                <p>Import TWIC issues automatically. Filter by player, ELO, ECO code, or event. Click any game to
+                    analyze instantly.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📖</div>
+                <h3>Repertoire Builder</h3>
+                <p>Organize games into folders. Save annotated positions as flashcards. Export/import PGN. Build your
+                    opening prep system.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Opening Insights</h3>
+                <p>Win rate analysis by ECO code. Popularity trends across rating ranges. Find the best lines for your
+                    level (1700-2500+).</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🖥️</div>
+                <h3>Native Mac Experience</h3>
+                <p>Built with a dark, neon-accented UI designed for focus. No Electron bloat. No browser tabs. Just
+                    chess analysis.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔒</div>
+                <h3>100% Local & Private</h3>
+                <p>Your games, annotations, and analysis stay on your machine. No account required. No data sent
+                    anywhere. SQLite-powered.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison -->
+    <section class="compare" id="compare">
+        <div class="section-header">
+            <div class="section-badge">COMPARISON</div>
+            <h2>macbase vs <span class="text-neon">the rest</span></h2>
+        </div>
+
+        <div class="compare-table-wrapper">
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th class="highlight">macbase</th>
+                        <th>ChessBase</th>
+                        <th>Lichess</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Price</td>
+                        <td class="highlight"><span class="badge-free">Free</span></td>
+                        <td>$199+</td>
+                        <td>Free</td>
+                    </tr>
+                    <tr>
+                        <td>Runs on Mac</td>
+                        <td class="highlight">✅ Native</td>
+                        <td>❌ Windows only</td>
+                        <td>✅ Browser</td>
+                    </tr>
+                    <tr>
+                        <td>Local-first</td>
+                        <td class="highlight">✅</td>
+                        <td>✅</td>
+                        <td>❌ Cloud</td>
+                    </tr>
+                    <tr>
+                        <td>Stockfish engine</td>
+                        <td class="highlight">✅ Built-in</td>
+                        <td>✅ Add-on</td>
+                        <td>✅ Cloud</td>
+                    </tr>
+                    <tr>
+                        <td>PGN database</td>
+                        <td class="highlight">✅ SQLite</td>
+                        <td>✅ Proprietary</td>
+                        <td>⚠️ Limited</td>
+                    </tr>
+                    <tr>
+                        <td>Repertoire builder</td>
+                        <td class="highlight">✅</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td>Opening statistics</td>
+                        <td class="highlight">✅ Win rates by ELO</td>
+                        <td>✅</td>
+                        <td>✅</td>
+                    </tr>
+                    <tr>
+                        <td>Open source</td>
+                        <td class="highlight">✅</td>
+                        <td>❌</td>
+                        <td>✅</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Ready to analyze?</h2>
+            <p>Download macbase and start studying chess on your Mac today. Free, open source, no strings attached.</p>
+            <a href="https://github.com/joe-ging/macbase/releases" class="btn-primary large">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                    <polyline points="7 10 12 15 17 10" />
+                    <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Download for Mac
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-logo">
+                <span class="logo-icon">♞</span>
+                <span>mac<span class="text-neon">base</span></span>
+            </div>
+            <div class="footer-links">
+                <a href="https://github.com/joe-ging/macbase" target="_blank">GitHub</a>
+                <a href="https://github.com/joe-ging/macbase/issues" target="_blank">Report a Bug</a>
+                <a href="https://github.com/joe-ging/macbase/releases" target="_blank">Releases</a>
+            </div>
+            <div class="footer-copy">
+                Built with ♟️ by <a href="https://github.com/joe-ging" target="_blank">joe-ging</a> · 2026
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
