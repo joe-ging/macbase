@@ -12,7 +12,17 @@
 
 **Working Name:** `macbase` (styled lowercase like macOS)
 
-**Positioning:** Low-cost ChessBase alternative, built natively for Mac, local-first.
+- **Positioning:** Low-cost ChessBase alternative, built natively for Mac, local-first.
+- **Core Value:** Native macOS chess database, Stockfish interface, and "Cockpit" UI.
+- **Model:** **Open Core** (Public Core Repo + Private Pro DMG Layer).
+- **Target:** OTB players, Mac users, and ChessBase refugees.
+- **Narrative:** "Open Source Board, Pro Mac Experience."
+
+### 🛡️ Open Core Security (Cloning Prevention)
+To prevent "freely cloning" the full commercial app:
+1.  **Public Repo (`joe-ging/macbase`):** Features the "Core" (Analysis Board, PGN Search, Engine UI).
+2.  **Private Layer (Not in Repo):** Features the "Pro" values (Automated TWIC Sync, Elo Insights, Flashcards).
+3.  **The DMG:** The commercial DMG combines both, but the source for "Pro" remains private.
 
 **Pricing:** Free for first 100 users → one-time purchase after that (no subscriptions).
 
@@ -46,15 +56,23 @@ Product Hunt alone won't make or break this. As a first-time PH maker with no au
 | **MicroLaunch** | None | Free PH alternative | Indie makers |
 | **Uneed.best** | None | Free launch directory | Product discovery |
 
-#### 🟡 Tier 2 — Low gate, post here Day 2-3
+#### 🟡 Tier 2 — High Relevance (Post Day 1-2)
 
 | Platform | Barrier | Post Format | Audience |
 |---|---|---|---|
-| **r/SideProject** | Low/no karma | "I built this" post with screenshots | Makers who appreciate craftsmanship |
-| **r/macapps** | ~10 karma | App showcase | Mac power users |
-| **Chess.com forums** | Free account | Post in "Chess Software" | Active chess players |
 | **Lichess forum** | Free account | Post in "General" | Open-source-friendly chess community |
-| **X/Twitter** | None | Thread with demo GIF | Chess influencers, tech builders |
+| **Chess.com forums** | Free account | Post in "Chess Software" | Active chess players |
+| **AlternativeTo** | Submission | Product profile | Users looking for ChessBase alternatives |
+| **BetaList** | Review queue | "Beta" showcase | Early adopters & software hunters |
+| **MacRumors Forums** | Free account | Post in "Software" | Hardcore Apple enthusiasts |
+
+#### ⚪ Auxiliary Tier — Secondary Exposure (Post Day 3+)
+
+| Platform | Barrier | Post Format | Audience |
+|---|---|---|---|
+| **X/Twitter** | None | Thread with demo GIF | Global tech builders |
+| **V2EX** | Registered | Post in "Apple" | Chinese Mac power users |
+| **Xiaohongshu** | Mobile | Photo/Video | Design-conscious (domestic China) |
 
 #### 🔴 Tier 3 — Higher gate, build up over 2-4 weeks
 
@@ -95,9 +113,9 @@ Product Hunt alone won't make or break this. As a first-time PH maker with no au
 
 ### Your 3 Selling Points (validated by Margot)
 
-1. **Built for Mac** — ChessBase is Windows-only. Mac users currently use Wine/Parallels or inferior web tools. No native Mac chess analysis app exists at this quality level.
-2. **One-time cost** — ChessBase charges €199-499 for software + €50/year for Premium + €230 for Mega Database. That's €300-700+ to get started. We charge a one-time fee (free for first 100 users).
-3. **Local-first** — All analysis, PGNs, and repertoires stored on the user's Mac. No cloud dependency. No account needed. Their data is their data.
+1.  **Built for Mac** — ChessBase is Windows-only. Mac users currently use Wine/Parallels or inferior web tools. No native Mac chess analysis app exists at this quality level.
+2.  **One-time cost** — ChessBase charges €199-499 for software + €50/year for Premium + €230 for Mega Database. That's €300-700+ to get started. We charge a one-time fee (free for first 100 users).
+3.  **Local-first** — All analysis, PGNs, and repertoires stored on the user's Mac. No cloud dependency. No account needed. Their data is their data.
 
 ### Competitive Pricing Landscape
 
@@ -116,133 +134,113 @@ Product Hunt alone won't make or break this. As a first-time PH maker with no au
 
 **Goal:** Validate demand. Get 100 downloads. Collect emails. Gather feedback.
 
-- **Price:** Free for first 100 users (gated via Google Form)
-- **All features unlocked** — no gating yet
-- **Distribution:** Google Form (email) → GitHub Releases (download)
-- **Duration:** 4-8 weeks post-launch
-- **Success metrics:**
-  - 100 downloads (free tier exhausted)
-  - 50+ email signups
-  - 20+ pieces of feedback
-  - Featured on Product Hunt or front page HN
+-   **Price:** Free for first 100 users (gated via Google Form)
+-   **All features unlocked** — no gating yet
+-   **Distribution:** Google Form (email) → GitHub Releases (download)
+-   **Duration:** 4-8 weeks post-launch
+-   **Success metrics:**
+    -   100 downloads (free tier exhausted)
+    -   50+ email signups
+    -   20+ pieces of feedback
+    -   Featured on Product Hunt or front page HN
 
 ### Phase 2: Polish + Sign ($99 Apple Dev)
 
 **Trigger:** Phase 1 success metrics met.
 
-- Pay $99 for Apple Developer account
-- Code-sign and notarize the app
-- Smooth install experience (no right-click workaround)
-- Add optional anonymous usage analytics (PostHog free tier)
-- Fix top 5 feedback issues from Phase 1
+-   Pay $99 for Apple Developer account
+-   Code-sign and notarize the app
+-   Smooth install experience (no right-click workaround)
+-   Add optional anonymous usage analytics (PostHog free tier)
+-   Fix top 5 feedback issues from Phase 1
 
 ### Phase 3: Monetize (One-Time Purchase)
 
 **Trigger:** 100 free downloads exhausted, clear demand.
 
-- **Price:** One-time purchase (TBD — $29-49 range)
-- **Payment:** Choose own payment processor (NOT Gumroad — avoid 10% cut)
-  - Options: Stripe Checkout, Paddle, LemonSqueezy, Ko-fi
-  - Decision deferred to post-validation
-- **License activation:** Simple key check on app launch, stored locally
-- All features included — no free/pro split initially
+-   **Price:** One-time purchase (TBD — $29-49 range)
+-   **Payment:** Choose own payment processor (NOT Gumroad — avoid 10% cut)
+    -   Options: Stripe Checkout, Paddle, LemonSqueezy, Ko-fi
+    -   Decision deferred to post-validation
+-   **License activation:** Simple key check on app launch, stored locally
+-   All features included — no free/pro split initially
 
 ### Phase 4: Growth (optional, if traction continues)
 
-- Mac App Store listing ($99/year already paid)
-- Free/Pro tier split (if user base warrants it)
-- Database marketplace (users share/sell opening databases)
-- Cloud sync (optional, paid add-on for backup)
-- Multi-engine support (Leela Chess Zero)
-- Windows/Linux versions via Tauri
+-   Mac App Store listing ($99/year already paid)
+-   Free/Pro tier split (if user base warrants it)
+-   Database marketplace (users share/sell opening databases)
+-   Cloud sync (optional, paid add-on for backup)
+-   Multi-engine support (Leela Chess Zero)
+-   Windows/Linux versions via Tauri
 
 ---
 
 ## 3. Timeline: Fail-Fast Sprint (5 Days)
 
 > **Pace:** 4 hours/day, one sprint per day
-> **Launch target:** Day 5 (Feb 26, 2026 — Wednesday)
+> **Launch target:** Monday, Feb 24, 2026
 > **Philosophy:** Ship ugly, learn fast. Perfect is the enemy of launched.
-> **Today's date:** Feb 21, 2026
+> **Today's date:** Feb 22, 2026 (10:22 AM)
 
 ### 5-Day Sprint Plan
 
 ```
-DAY 1 — Fri Feb 21 (4 hrs) ✅ COMPLETE
+FRI Feb 21 — The "Crunch" (Foundation & Storefront) ✅ COMPLETE
 ┌─────────────────────────────────────────────────────┐
-│ ✅ Rebrand to macbase (code + GitHub repo)          │
-│ ✅ Remove Settings page + unnecessary features      │
-│ ✅ Create launch plan                               │
-│ ✅ Define business model + launch channels          │
-│ ✅ Fix Dashboard TWIC timeout bug                   │
-│ ✅ Fix duplicate max_elo filter bug                 │
-│ ✅ Delete dead Settings.jsx file                    │
-│ ✅ Set up GitHub Pages hosting                      │
-│ ✅ Redirect joe-ging.github.io → /macbase           │
-│ ✅ Make jl-intelligence-parser repo private          │
-│ ✅ Push all changes to GitHub                       │
+│ 🏗️ **BUILD PHASE (8 HOURS)**                        │
+│ - ✅ Rebrand to macbase (code + GitHub repo)          │
+│ - ✅ Remove dead code & Settings.jsx file            │
+│ - ✅ Fix Dashboard TWIC & Elo Filter bugs            │
+│ - ✅ Build Landing Page v1 (Hero, Features, Compare) │
+│ - ✅ Set up Tally.so Email Gate & Download Counter   │
+│ - ✅ Take all 10+ screenshots for carousel           │
+│ - ✅ Redirect joe-ging.github.io → /macbase           │
+│ - ✅ Push all foundational code to GitHub            │
 │                                                     │
-│ Result: App clean, branded, bugs fixed, plan clear  │
+│ Result: A fully branded, functional store and app.  │
 └─────────────────────────────────────────────────────┘
 
-DAY 2 — Sat Feb 22 (4 hrs) 🔧 IN PROGRESS
+SAT Feb 22 — The "Protection" (Open Core Security) ✅ COMPLETE
 ┌─────────────────────────────────────────────────────┐
-│ ✅ Build landing page v1 (hero, features, compare)  │
-│ ✅ Add TWIC database positioning + donation link    │
-│ ✅ Feature-by-feature walkthrough layout            │
-│ ✅ Update pricing: free for first 100 users         │
-│ ✅ Take full app screenshots (carousel design)      │
-│ ✅ Add screenshots to landing page                  │
-│ ✅ Set up Tally.so form (email gate for downloads)  │
-│    - Accessible in China (unlike Google Forms)      │
-│    - On submit: auto-redirects to direct DMG link   │
-│ ✅ Add live download counter to landing page        │
-│    - Fetches count from GitHub Releases API         │
-│ ✅ Package unsigned DMG + test install              │
+│ 🛡️ **SECURE PHASE (4 HOURS)**                        │
+│ - ✅ Repository PUBLIC & Stars re-enabled.           │
+│ - ✅ **Hard Separation:** Extracted "Pro" features.  │
+│ - ✅ **Security:** TWIC & Insights logic moved to /pro│
+│ - ✅ **Arrows:** Right-click drawing now Pro-only.   │
+│ - ✅ **Localization:** Chinese (ZH-CN) translation.  │
+│ - ✅ **Writing:** HN, PH, & IH launch posts ready.   │
 │                                                     │
-│ Result: Downloadable app + landing page + count     │
+│ Result: Intellectual Property protected; ready to launch. │
 └─────────────────────────────────────────────────────┘
 
-DAY 3 — Sun Feb 23 (4 hrs)
+SUN Feb 23 — The "Quiet Drop" (Community Only) 🚀 NEXT
 ┌─────────────────────────────────────────────────────┐
-│ Hour 1:   Polish GitHub README w/ screenshots       │
-│ Hour 2:   Take remaining screenshots if needed      │
-│ Hour 3:   Write HN post + PH listing + IH post      │
-│ Hour 4:   Write maker story (your "why")            │
+│ 🚀 **INITIAL FEEDBACK DROP (2 HOURS)**               │
+│ - [ ] Post on Lichess General Discussion            │
+│ - [ ] Post on Chess.com Software Forum              │
+│ - [ ] Reddit r/chess (The "Just Released" post)     │
 │                                                     │
-│ Result: All launch content ready to post             │
+│ Goal: Final stress-test before the global "Big Bang"│
 └─────────────────────────────────────────────────────┘
 
-DAY 4 — Mon Feb 24 (4 hrs)
+MON Feb 24 — Phase 4: The "Big Bang" Launch
 ┌─────────────────────────────────────────────────────┐
-│ Hour 1:   Beta test — 1-2 friends install DMG       │
-│ Hour 2:   Fix any showstopper bugs they find         │
-│ Hour 3:   Record 60-sec demo (skip if takes too long)│
-│ Hour 4:   Final review of all launch materials       │
+│ 💥 **GLOBAL PUBLIC DROPS (Launch Day)**             │
+│ - Show HN (Hacker News)                              │
+│ - Product Hunt listing                               │
+│ - AlternativeTo.net / BetaList                       │
 │                                                     │
-│ Result: Tested, polished, ready to ship              │
+│ Result: Maximum professional reach                   │
 └─────────────────────────────────────────────────────┘
 
-DAY 5 — Wed Feb 26 (4 hrs) 🚀 LAUNCH
+WED Feb 26+ — Phase 5: Closing the Gap
 ┌─────────────────────────────────────────────────────┐
-│ Morning:  Show HN + Product Hunt + Indie Hackers    │
-│ Midday:   MicroLaunch + Uneed.best                   │
-│ Afternoon: r/SideProject, r/macapps, chess forums   │
-│ All day:  RESPOND TO EVERY COMMENT                   │
+│ - Post on V2EX (Chinese Tech Community)              │
+│ - Xiaohongshu (Visual Branding)                      │
+│ - Review user feedback & fix top reported bugs       │
 │                                                     │
-│ 🎯 Goal: 1000+ eyeballs on the app                 │
-└─────────────────────────────────────────────────────┘
-
-DAYS 6-10 — FEEDBACK SPRINT
-┌─────────────────────────────────────────────────────┐
-│ Monitor downloads, comments, GitHub issues           │
-│ Fix top 3 bugs users report                          │
-│ Reply to every piece of feedback                     │
-│                                                     │
-│ 🎯 FAIL-FAST CHECK (Day 10, ~Mar 8):               │
-│    > 50 downloads   = SIGNAL → keep going            │
-│    > 10 GitHub stars = SIGNAL → community interested │
-│    > 0 after 10 days = PIVOT or STOP                 │
+│ Result: Finalizing the first 100 Pro users           │
 └─────────────────────────────────────────────────────┘
 ```
 
@@ -260,15 +258,20 @@ DAYS 6-10 — FEEDBACK SPRINT
 
 | Signal | Downloads | Stars | Comments | Action |
 |---|---|---|---|---|
-| 🟢 **Go** | 50+ | 10+ | 5+ meaningful | Keep building. Phase 2. |
-| 🟡 **Pivot** | 10-50 | 1-10 | Few/generic | Reposition or add killer feature, relaunch. |
-| 🔴 **Stop** | <10 | 0 | None | No demand. Save your time. Move on. |
+### ♟️ The Evolution: "Open Core" Model (D+3.7)
+**Decision:** We are moving to an **Open Core** model. This allows us to maintain community trust (stars/PRs) while still protecting the "secret sauce" of the Pro Experience.
 
-### What "feedback" looks like
+**Actions Taken:**
+1.  Repository `joe-ging/macbase` is **PUBLIC** again. (Engine, PGN Parser, Core Board).
+2.  Repository `joe-ging/macbase-app` handles the **PUBLIC** storefront and binary distribution.
+3.  Landing Page URL stabilized at: `https://joe-ging.github.io/macbase-app/`
+4.  Strategy: Capture emails via the Pro DMG, capture stars via the Open Core repo.
 
-- **Hacker News:** Blunt but actionable comments
-- **Product Hunt:** Usually more positive reviews
-- **GitHub Issues:** Bug reports + feature requests (most valuable)
+### 📅 Monday: The "Big Bang" Launch (HN & Product Hunt)
+- **Hacker News:** "Show HN: I built a native Mac chess app in 14 days with AI."
+- **Focus:** The "Builder Story" and the "Open Core" transparency.
+- **Objective:** 100 Free Pro Downloads + 50 GitHub Stars.
+- **PR Status:** All 3 PRs are active and valid again! (PR #1038 updated to stable URL).
 - **Reddit:** "Does it do X?" = reveals what people want
 - **Chess forums:** "How vs Y?" = reveals competitive gaps
 
@@ -392,6 +395,15 @@ Launch Day Posts (all platforms simultaneously)
 | Name already taken | Check trademark + domain availability before committing |
 | Google Form feels unprofessional | Keep it simple and branded; swap to Stripe Checkout in Phase 2 |
 | Free users don't convert to paid | Focus on proving demand first; monetization is Phase 3 |
+
+---
+
+## 📈 Integration & PR Monitoring
+- [ ] **Awesome-Mac PR #1827**: [View Status](https://github.com/jaywcjlove/awesome-mac/pull/1827) (Pending Review)
+- [ ] **Open Source Mac Apps PR #1038**: [View Status](https://github.com/serhii-londar/open-source-mac-os-apps/pull/1038) (Pending Review)
+- [ ] **Awesome Chess PR #43**: [View Status](https://github.com/mbiesiad/awesome-chess/pull/43) (Pending Review)
+- [ ] **AlternativeTo Submission**: (Submit Monday)
+- [ ] **BetaList Review**: (Submit Monday)
 
 ---
 

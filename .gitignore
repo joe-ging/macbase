@@ -40,3 +40,5 @@ Thumbs.db
 *.bak
 *.bk
 *.db
+frontend/src/pro/
+backend/pro/

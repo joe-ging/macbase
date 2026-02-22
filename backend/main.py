@@ -52,6 +52,13 @@ from services.database import SessionLocal, Game, ExcludedIssue, RepertoireFolde
 def on_startup():
     init_db()
 
+# Safe import for Pro Logic
+try:
+    from pro import pro_logic
+    PRO_AVAILABLE = True
+except ImportError:
+    PRO_AVAILABLE = False
+
 def get_db():
     db = SessionLocal()
     try:
@@ -111,6 +118,14 @@ def get_issue_events(issue_num):
 @app.get("/api/twic-issues")
 def get_twic_issues(limit: int = 15):
     """Fetch latest TWIC issues from theweekinchess.com"""
+    if PRO_AVAILABLE:
+        try:
+            return pro_logic.get_twic_issues_pro(limit, _twic_issues_cache, TWIC_CACHE_DURATION, SessionLocal, Game, ExcludedIssue, import_status, get_issue_events)
+        except Exception as e:
+            print(f"Pro TWIC logic failed: {e}")
+            # Fallback to basic scraper logic or promotion
+            pass
+            
     global _twic_issues_cache
     
     # Return cached data if fresh
@@ -487,146 +502,17 @@ def get_stats(db: Session = Depends(get_db)):
 
 @app.get("/api/insights")
 def get_insights(min_elo: int = 1700, max_elo: int = 2000, db: Session = Depends(get_db)):
-    # Exclude disallowed issues
-    excluded_issues = db.query(ExcludedIssue.twic_issue).all()
-    excluded_ids = [e[0] for e in excluded_issues]
+    if PRO_AVAILABLE:
+        try:
+            return pro_logic.get_insights_pro(min_elo, max_elo, db, ExcludedIssue, Game, ECO_DICT)
+        except Exception as e:
+            print(f"Pro insights logic failed: {e}")
+            return {"error": "Insights temporarily unavailable", "detail": str(e)}
 
-    # Relaxed query: At least ONE player in range
-    base_query = db.query(Game).filter(
-        or_(
-            and_(Game.white_elo >= min_elo, Game.white_elo <= max_elo),
-            and_(Game.black_elo >= min_elo, Game.black_elo <= max_elo)
-        )
-    )
-    
-    if excluded_ids:
-        base_query = base_query.filter(Game.twic_issue.notin_(excluded_ids))
-
-    def calculate_stats(games, is_white_pov=True):
-        if not games: return []
-        stats = {}
-        for g in games:
-            raw_name = g.opening
-            eco_name = ECO_DICT.get(g.eco)
-            if eco_name and "Queen's Pawn" not in eco_name and "King's Pawn" not in eco_name: 
-                 opening_name = eco_name
-            else:
-                 opening_name = raw_name or eco_name or f"ECO {g.eco}"
-
-            key = (g.eco, opening_name)
-            if key not in stats:
-                stats[key] = {"count": 0, "wins": 0, "draws": 0, "losses": 0}
-            
-            stats[key]["count"] += 1
-            if g.result == "1-0":
-                 stats[key]["wins" if is_white_pov else "losses"] += 1
-            elif g.result == "0-1":
-                 stats[key]["losses" if is_white_pov else "wins"] += 1
-            else:
-                 stats[key]["draws"] += 1
-                 
-        result_list = []
-        for (eco, name), data in stats.items():
-            total = data["count"]
-            if total < 3: continue 
-            
-            win_rate = (data["wins"] / total) * 100
-            loss_rate = (data["losses"] / total) * 100
-            draw_rate = (data["draws"] / total) * 100
-            score = (data["wins"] + 0.5 * data["draws"]) / total * 100
-            
-            result_list.append({
-                "name": name,
-                "eco": eco, 
-                "total": total,
-                "win_rate": round(win_rate, 1),
-                "loss_rate": round(loss_rate, 1),
-                "draw_rate": round(draw_rate, 1),
-                "score": round(score, 1)
-            })
-            
-        return sorted(result_list, key=lambda x: (x["win_rate"], x["total"]), reverse=True)[:15]
-
-    # 1. e4 games
-    e4_games = base_query.filter(Game.pgn.like("%\n1. e4%")).all()
-    d4_games = base_query.filter(Game.pgn.like("%\n1. d4%")).all()
-    all_white_games = base_query.all() 
-
-    # --- INTELLIGENT GROUPING FOR WHITE E4 ---
-    def get_best_responses_by_defense(games):
-        defense_map = {
-            "Sicilian (1... c5)":   [g for g in games if "1. e4 c5" in g.pgn],
-            "French (1... e6)":     [g for g in games if "1. e4 e6" in g.pgn],
-            "Caro-Kann (1... c6)":  [g for g in games if "1. e4 c6" in g.pgn],
-            "1... e5 Response":     [g for g in games if "1. e4 e5" in g.pgn],
-            "Pirc/Modern (d6/g6)":  [g for g in games if "1. e4 d6" in g.pgn or "1. e4 g6" in g.pgn]
-        }
-        
-        best_responses = []
-        
-        for defense_name, defense_games in defense_map.items():
-            if not defense_games: continue
-            stats = calculate_stats(defense_games, is_white_pov=True)
-            if stats:
-                best_move = stats[0] 
-                best_move["name"] = f"Best vs {defense_name.split(' ')[0]}: {best_move['name']}"
-                best_responses.append(best_move)
-        
-        return sorted(best_responses, key=lambda x: x["win_rate"], reverse=True)
-
-    # --- TREND DATA (Filtered by Elo!) ---
-    # We want trends for the specific Elo range users are looking at
-    # Re-use base_query to ensure consistent filtering
-    # Note: We need a new query grouping by issue/eco, but applying the same filters
-    
-    # Extract IDs from base query to filter aggregate (safest way to keep filters sync)
-    # OR better, duplicate the filter logic on a new query
-    trend_query = db.query(Game.twic_issue, Game.eco, func.count(Game.id)).filter(
-        or_(
-            and_(Game.white_elo >= min_elo, Game.white_elo <= max_elo),
-            and_(Game.black_elo >= min_elo, Game.black_elo <= max_elo)
-        )
-    ).group_by(Game.twic_issue, Game.eco)
-    
-    if excluded_ids:
-        trend_query = trend_query.filter(Game.twic_issue.notin_(excluded_ids))
-        
-    trend_results = trend_query.all()
-    
-    # Aggregate by NAME instead of ECO to be user-friendly
-    # e.g. A45 and A46 might both be "Queen's Pawn Game" -> sum them up
-    aggregated_trends = {}
-    
-    for r in trend_results:
-        issue = r[0]
-        eco_code = r[1]
-        count = r[2]
-        
-        if not eco_code: continue
-        
-        # Get readable name
-        # Use ECO_DICT
-        base_name = ECO_DICT.get(eco_code, eco_code)
-        
-        # User wants ECO in legend: "B90: Sicilian, Najdorf"
-        # We use this full label as the key.
-        # This effectively treats distinct ECOs as valid distinct trends, 
-        # but gives them readable names.
-        full_label = f"{eco_code}: {base_name}"
-        
-        key = (issue, full_label)
-        aggregated_trends[key] = aggregated_trends.get(key, 0) + count
-
-    # Convert back to list format for frontend
-    # Use 'eco' field for the name to avoid breaking frontend logic that expects 'eco' key
-    trend_data = [{"issue": k[0], "eco": k[1], "count": v} for k, v in aggregated_trends.items()]
-
+    # If pro logic is missing (Public Core), return promotion data
     return {
-        "white_e4": get_best_responses_by_defense(e4_games),
-        "white_all": calculate_stats(all_white_games, is_white_pov=True),
-        "black_vs_e4": calculate_stats(e4_games, is_white_pov=False),
-        "black_vs_d4": calculate_stats(d4_games, is_white_pov=False),
-        "popularity_trend": trend_data
+        "white_e4": [], "white_all": [], "black_vs_e4": [], "black_vs_d4": [], "popularity_trend": [],
+        "promo": "Upgrade to macbase Pro to unlock Opening Performance Analytics and Live Trend charts."
     }
 
 class PgnRequest(BaseModel):

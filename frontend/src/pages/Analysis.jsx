@@ -45,35 +45,10 @@ const Analysis = () => {
     // Derived arrows for current board (handles "loading" arrows when navigating)
     // We use the current 'fen' (or 'analysisFen' if in analysis mode) to look up arrows
     const activeFen = analysisMode && analysisFen ? analysisFen : fen;
-    const arrows = positionArrows[activeFen] || [];
-
-    const handleArrowDraw = (arrow) => {
-        // Update persistent store for this specific FEN
-        setPositionArrows(prev => {
-            const current = prev[activeFen] || [];
-            let updated;
-
-            if (arrow.color === 'remove') {
-                updated = current.filter(a => !(a.from === arrow.from && a.to === arrow.to));
-            } else {
-                // Check duplicates just in case
-                const exists = current.some(a => a.from === arrow.from && a.to === arrow.to);
-                updated = exists ? current : [...current, arrow];
-            }
-
-            return { ...prev, [activeFen]: updated };
-        });
-
-        // Mark game as analyzed ("Study Sticker") - Update Backend Immediately
-        if (!gameInfo?.is_analyzed) {
-            setGameInfo(prev => ({ ...prev, is_analyzed: true, is_personal: true }));
-
-            // If valid game ID from main DB, mark it persistent
-            if (gameInfo && gameInfo.id && !String(gameInfo.id).startsWith('rep-')) {
-                fetch(`http://localhost:8000/api/games/${gameInfo.id}/study`, { method: 'PUT' })
-                    .catch(e => console.error("Failed to mark analysis", e));
-            }
-        }
+    const [arrows, setArrows] = useState([]);
+    const handleArrowDraw = () => {
+        // Reserved for Pro version
+        console.info("Upgrade to macbase Pro for arrow drawing and tactical highlighting.");
     };
 
     // Evaluation cache for instant navigation - preloaded when game loads
@@ -626,7 +601,6 @@ const Analysis = () => {
                 pgn: finalPgn,
                 fen: finalFen,
                 is_flashcard: (isSnapshotMode || isFlashcard) ? 1 : 0,
-                arrows: arrows,
                 orientation: finalOrientation,
                 tags: isSnapshotMode ? [
                     `Opening:${(gameInfo?.eco || "")} ${(gameInfo?.opening || "")}`.trim(),
@@ -767,23 +741,10 @@ const Analysis = () => {
             return;
         }
 
-        // Check for arrows to set analyzed status
-        const hasArrows = gameData.repertoire_arrows && Array.isArray(gameData.repertoire_arrows) && gameData.repertoire_arrows.length > 0;
-
-        // Initial game info setup with analyzed flag if arrows exist
-        setGameInfo({ ...gameData, is_analyzed: hasArrows || gameData.is_analyzed });
+        // Initial game info setup
+        setGameInfo({ ...gameData, is_analyzed: gameData.is_analyzed });
         sessionStorage.setItem('currentGame', JSON.stringify(gameData));
         if (gameData.orientation) setBoardOrientation(gameData.orientation);
-
-        // Load Repertoire Arrows if present
-        if (hasArrows) {
-            // Assign these arrows to the FEN they were saved with (or start position if undefined)
-            // Assuming gameData.fen is the position where arrows were drawn
-            const targetFen = gameData.fen || 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
-            setPositionArrows({ [targetFen]: gameData.repertoire_arrows });
-        } else {
-            setPositionArrows({});
-        }
 
         if (gameData.pgn) {
             setIsLoading(true);
@@ -958,7 +919,7 @@ const Analysis = () => {
                         <strong style={{ color: '#facc15' }}>Right-Click</strong> Circle
                     </span>
                     <button
-                        onClick={() => setPositionArrows(prev => ({ ...prev, [activeFen]: [] }))}
+                        onClick={() => setArrows([])}
                         title="Clear all arrows"
                         style={{
                             background: 'transparent',
