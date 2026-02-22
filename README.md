@@ -4,7 +4,25 @@
 
 Built natively for macOS, **macbase** is a local-first chess analysis platform. No subscriptions, no proprietary database formats, and no Windows emulation required. Just deep analysis and world-class game data, 100% on your Mac.
 
-[**Official Download (Free Beta)**](https://joe-ging.github.io/macbase-app/) • [**Landing Page**](https://joe-ging.github.io/macbase-app/) • [**View Community Core**](https://github.com/joe-ging/macbase)
+[**Official Download & Storefront**](https://joe-ging.github.io/macbase-app/) • [**Landing Page**](https://joe-ging.github.io/macbase-app/) • [**Star on GitHub**](https://github.com/joe-ging/macbase)
+
+---
+
+## 🌎 Open Core & Community
+
+Macbase follows an **Open Core** model. The repository you see here contains the **Community Core**—the foundational engine, database architecture, and native macOS desktop environment. 
+
+We believe professional tools should be accessible to everyone, which is why the core is open source. To sustain development, proprietary features (like advanced tactical arrows, professional insights, and the TWIC auto-sync service) are part of the **Pro Beta** distribution.
+
+---
+
+## 🌟 Support the Project (Supporters Wall)
+
+We want to celebrate our early community! 
+
+**The Incentive:** Whomever stars this project on GitHub will have their handle added to our **Supporters Wall** in the next release. If you've contributed to the project's visibility, we want you to be part of our history.
+
+[**⭐ Star this Repo now**](https://github.com/joe-ging/macbase)
 
 ---
 
@@ -22,68 +40,28 @@ Import thousands of real OTB tournament games from [The Week in Chess (TWIC)](ht
   <img src="docs/screenshots/database.png" width="800" />
 </p>
 
-### Repertoire & Flashcards
-Clip critical positions, add move-specific notes, and organize your prep into custom folders.
-<p align="center">
-  <img src="docs/screenshots/repertoire2.png" width="800" />
-</p>
-
-### Tournament Insights
-See what openings are winning at your specific FIDE rating bracket (1800, 2000, 2200+).
-<p align="center">
-  <img src="docs/screenshots/insight1.png" width="800" />
-</p>
-
 ---
 
-## ✨ Features
+## 🚀 Installation (How to get the App)
 
-- **Built for Mac** — 100% native Apple Silicon (M1/M2/M3) and Intel support. No Wine, no Parallels.
-- **TWIC Integration** — One-click access to the world’s most comprehensive free tournament database since 1994.
-- **Deep Stockfish Analysis** — Real-time engine evaluation, evaluation bar, and top engine lines.
-- **Native Visual Annotations** — Draw arrows and circles on the board to visualize your ideas.
-- **Standard PGN Format** — Your data belongs to you. No vendor lock-in; import and export everything as universal PGN.
-- **Local-First Architecture** — All your games, analysis, and repertoires are stored locally on your device in a fast SQLite database.
-- **Opening Recognition** — Built-in ECO opening recognition with a comprehensive library of 500+ opening variations.
+Because we are in a limited Beta launch (Free for the first 100 users), we distribute the app through our official storefront to ensure you receive the latest **Pro Beta** features and updates.
 
----
-
-## 🚀 Installation
-
-1. **Visit** the [Official Storefront](https://joe-ging.github.io/macbase-app/) to claim your free copy.
-2. **Download** the `macbase.dmg` (A gated link is provided after email verification).
-3. **Move** the `macbase` app to your **Applications** folder.
-4. **Open:** Since the app is currently in Beta and unsigned, you must **Right-click** the app and select **Open** for the first run.
-5. **Enjoy:** The app will stay in your dock and automatically open your browser to `localhost:8000`.
-
----
-
-## 🌟 Support the Project
-
-Macbase is an **Open Core** project. We believe in providing powerful tools for free while maintaining a sustainable commercial layer.
-
-**Get Featured:** Whomever stars this project on GitHub will have their handle added to our **Supporters Wall** in the next release!
-
-[**⭐ Star this Repo**](https://github.com/joe-ging/macbase)
-
----
-
-## 🚩 Feedback & Bug Reports
-
-Found a bug? Have a feature request? Please use our **Launch Feedback Form** to help us improve before the official release:
-
-👉 [**Report an Issue / Give Feedback**](YOUR_GOOGLE_FORM_LINK)
+1. **Visit** the [Official Storefront](https://joe-ging.github.io/macbase-app/).
+2. **Claim your copy** by providing your email (to receive your unique download link and future beta updates).
+3. **Download** the `macbase.dmg`.
+4. **Move** the `macbase` app to your **Applications** folder.
+5. **Open:** Since the app is currently in Beta and unsigned, you must **Right-click** the app and select **Open** for the first run.
 
 ---
 
 ## 🛠️ Development Setup
 
-If you want to build macbase from source:
+If you want to contribute to the Community Core or build from source:
 
 ### Prerequisites
 - Python 3.12+
 - Node.js 20+
-- [Stockfish](https://stockfishchess.org/download/) (The app expects the binary to be available on your system if you are running from source)
+- [Stockfish](https://stockfishchess.org/download/) (Expected at system level)
 
 ### Steps
 1. **Clone the Repo:**
@@ -91,22 +69,17 @@ If you want to build macbase from source:
    git clone https://github.com/joe-ging/macbase.git
    cd macbase
    ```
+2. **Setup:** Run `./toggle_pro.py core` to ensure you are in the public build state.
+3. **Backend:** Install requirements in `backend/requirements.txt` and run `main.py`.
+4. **Frontend:** Run `npm install` and `npm run dev` in the `frontend` directory.
 
-2. **Backend Setup:**
-   ```bash
-   cd backend
-   python -m venv venv
-   source venv/bin/activate
-   pip install -r requirements.txt
-   python main.py
-   ```
+---
 
-3. **Frontend Setup:**
-   ```bash
-   cd frontend
-   npm install
-   npm run dev
-   ```
+## 🚩 Feedback & Bug Reports
+
+Found a bug? Have a feature request? Please use our **Launch Feedback Form** to help us improve before the official Monday release:
+
+👉 [**Report an Issue / Give Feedback**](YOUR_GOOGLE_FORM_LINK)
 
 ---
 
@@ -114,8 +87,7 @@ If you want to build macbase from source:
 
 - **Game Data:** Provided by [The Week in Chess (TWIC)](https://theweekinchess.com/) — Support them via [donation](https://theweekinchess.com/twic).
 - **Engine:** [Stockfish Chess](https://stockfishchess.org/)
-- **Built with:** FastAPI, React, SQLite, and PyInstaller.
+- **Built with:** FastAPI, React, SQLite.
 
 ## 📄 License
-
 MIT © [joe-ging](https://github.com/joe-ging)
