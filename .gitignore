@@ -42,3 +42,8 @@ Thumbs.db
 *.db
 frontend/src/pro/
 backend/pro/
+.agents/
+_agent/
+_agents/
+.agent/
+.gemini/
