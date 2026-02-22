@@ -79,7 +79,7 @@ If you want to contribute to the Community Core or build from source:
 
 Found a bug? Have a feature request? Please use our **Launch Feedback Form** to help us improve before the official Monday release:
 
-👉 [**Report an Issue / Give Feedback**](YOUR_GOOGLE_FORM_LINK)
+👉 [**Report an Issue / Give Feedback**](https://tally.so/r/jayppa)
 
 ---
 
