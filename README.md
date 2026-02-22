@@ -60,9 +60,10 @@ Identify your blind spots. Our professional engine analyzes your local games to 
 </p>
 
 ### 5. Repertoire Architect (Pro)
-Build and practice your opening repertoire. Track your win rates across specific variations and prepare for your next tournament opponent.
+Build and practice your opening repertoire with spaced-repetition flashcards. Track your win rates across specific variations and prepare for your next tournament opponent.
 <p align="center">
-  <img src="docs/screenshots/repertoire1.png" width="800" alt="opening repertoire" />
+  <img src="docs/screenshots/repertoire1.png" width="400" alt="opening repertoire" />
+  <img src="docs/screenshots/repertoire2.png" width="400" alt="repertoire flashcards" />
 </p>
 
 ---
