@@ -1,19 +1,19 @@
 # <img src="docs/logo.png" width="48" height="48" align="center" /> macbase
 
-**The ChessBase alternative Mac users have been waiting for.**
+**Stop procrastinating on your OTB analysis with the most beautiful, native chess studio for Mac.**
 
-Built natively for macOS, **macbase** is a local-first chess analysis platform. No subscriptions, no proprietary database formats, and no Windows emulation required. Just deep analysis and world-class game data, 100% on your Mac.
+Macbase provides a distraction-free, world-class interface for analyzing the tournament games you've been putting off, helping you turn "logged games" into "learned lessons" so you can get back to the OTB board stronger.
 
-[**Official Download & Storefront**](https://joe-ging.github.io/macbase-app/) • [**Landing Page**](https://joe-ging.github.io/macbase-app/) • [**Star on GitHub**](https://github.com/joe-ging/macbase)
+[**Download macbase Pro**](https://joe-ging.github.io/macbase-app/) • [**Star on GitHub**](https://github.com/joe-ging/macbase)
 
 ---
 
-### 🚨 **COMMUNITY MOMENTUM: THE SILENT DROP SURGE**
-In the first **4 hours** of our silent community preview:
-- 📈 **331 Total Clones**
-- 👤 **141 Unique Developers/Players** have cloned this repository from their terminals.
+### 🚨 **COMMUNITY MOMENTUM**
+In the first **8 hours** of our silent community preview:
+- 📈 **300+ Total Clones**
+- 👤 **141 Unique Developers/Players** cloned this from their terminals.
 
-The demand for a native Mac chess studio is real. **If you cloned the code, please leave a ⭐ Star on your way out.** It helps us break the "New Project" stigma and keeps the dev lights on for the AI Coach update!
+The demand for a native Mac chess studio is real. **If you're using the code, please leave a ⭐ Star.** It helps us break the "New Project" stigma and fuels the AI Coach update!
 
 ---
 
