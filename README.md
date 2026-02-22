@@ -2,6 +2,8 @@
 
 **Stop procrastinating on your OTB analysis with the most beautiful, native chess studio for Mac.**
 
+**[简体中文](README_ZH.md)** • English
+
 Macbase provides a distraction-free, world-class interface for analyzing the tournament games you've been putting off, helping you turn "logged games" into "learned lessons" so you can get back to the OTB board stronger.
 
 [**Download macbase Pro**](https://joe-ging.github.io/macbase-app/) • [**Star on GitHub**](https://github.com/joe-ging/macbase)
