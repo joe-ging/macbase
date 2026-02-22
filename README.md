@@ -8,6 +8,15 @@ Built natively for macOS, **macbase** is a local-first chess analysis platform. 
 
 ---
 
+### 🚨 **COMMUNITY MOMENTUM: THE SILENT DROP SURGE**
+In the first **4 hours** of our silent community preview:
+- 📈 **331 Total Clones**
+- 👤 **141 Unique Developers/Players** have cloned this repository from their terminals.
+
+The demand for a native Mac chess studio is real. **If you cloned the code, please leave a ⭐ Star on your way out.** It helps us break the "New Project" stigma and keeps the dev lights on for the AI Coach update!
+
+---
+
 ## 🌎 Open Core & Community
 
 Macbase follows an **Open Core** model. The repository you see here contains the **Community Core**—the foundational engine, database architecture, and native macOS desktop environment. 
@@ -20,9 +29,11 @@ We believe professional tools should be accessible to everyone, which is why the
 
 We want to celebrate our early community! 
 
-**The Incentive:** Whomever stars this project on GitHub will have their handle added to our **Supporters Wall** in the next release. If you've contributed to the project's visibility, we want you to be part of our history.
+**The Incentive:** Whomever stars this project on GitHub **during the launch week** will have their handle added to our **Supporters Wall** in the next release. If you've contributed to the project's visibility, we want you to be part of our history.
 
-[**⭐ Star this Repo now**](https://github.com/joe-ging/macbase)
+**DON'T BE A SHADOW CLONER:** If you're building with the core or analyzing games with it, click the star to let us know you're here. 
+
+[**⭐ Star this Repo now to join the Wall**](https://github.com/joe-ging/macbase)
 
 ---
 
