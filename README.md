@@ -19,12 +19,13 @@ Cloning this repo allows you to see the architecture and contribute to the found
 
 ---
 
-### 📊 **COMMUNITY MOMENTUM**
-In the first **8 hours** of our silent community preview:
-- 📈 **300+ Total Clones**
-- 👤 **141 Unique Developers/Players** cloned this from their terminals.
+### 📊 **COMMUNITY MOMENTUM (As of Feb 25, 2026)**
+The demand for a native Mac chess studio is real. In our silent community preview:
+- 📈 **478 Total Clones** in the last 14 days.
+- 👤 **202 Unique Developers/Players** have deployed this from their terminals.
+- ⭐ **0 Stars... so far!** 
 
-The demand for a native Mac chess studio is real. **If you're using the code, please leave a ⭐ Star.** It helps us break the "New Project" stigma and fuels the AI Coach update!
+**The Hidden Demand:** If you are one of the 200+ users who cloned the repo but haven't starred it yet—please leave a ⭐ Star! It's the only way we can bypass the "New Project" stigma and hit our next milestone to unlock the AI Coach.
 
 ---
 
@@ -108,9 +109,9 @@ Because we are in a limited Beta launch (**Free for the first 100 users**), we d
 ### **2. Bypassing macOS Gatekeeper (Critical Step)**
 Since macbase is an independent indie project and currently unsigned, macOS will flag it as "blocked" or "malware". Use one of the two methods below:
 
-#### **Method A: The Quick Shortcut (90% of cases)**
+#### **Method A: The Classic Shortcut (Legacy macOS)**
 - **Right-Click (or Control-Click)** the `macbase` icon in your Applications folder and select **Open**.
-- This will trigger a dialog with an **Open** button that is not visible with a normal double-click.
+- **Note:** This method is largely obsolete in macOS 15+ (Sequoia) and 16+ (Tahoe).
 
 #### **Method B: System Settings (If Method A fails)**
 1. Double-click the app. When the "Blocked" warning appears, click **OK**.
@@ -118,18 +119,24 @@ Since macbase is an independent indie project and currently unsigned, macOS will
 3. Scroll down to the **Security** section and look for the **Open Anyway** button.
 4. Enter your Mac password when prompted.
 
-#### **Method C: The Sequoia Ultimate Fix (v15+)**
-If the button does not appear in settings, open your **Terminal** and run:
+#### **Method C: The Sequoia/Tahoe Command Line Fix (Recommended)**
+If the "Open Anyway" button does not appear (a known bug in Sequoia) or fails, open your **Terminal** and run:
 ```bash
-xattr -cr /Applications/macbase.app
+sudo xattr -cr /Applications/macbase.app
 ```
-This forces macOS to trust the application instantly.
+This removes the quarantine flag and allows the app to run instantly.
 
-#### **Method D: Run from Source (The Unblockable Fallback)**
+#### **Method D: The DMG Recovery Fix (If the DMG won't open)**
+On macOS Sequoia/Tahoe, sometimes the `.dmg` file itself refuses to mount even with "Anywhere" enabled. Use this command to force-mount:
+```bash
+hdiutil attach -noverify ~/Downloads/macbase.dmg
+```
+
+#### **Method E: Run from Source (The Unblockable Fallback)**
 Since macbase is Open Core, you can always bypass binary restrictions by running the source code directly:
 1. Clone this repository.
 2. Follow the **Development Setup** instructions below.
-3. **Why:** macOS never blocks interpreted code from running via Python/Node.js.
+3. **Why:** macOS never blocks interpreted code (Python/Node.js).
 
 ---
 
