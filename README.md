@@ -23,7 +23,11 @@ Cloning this repo allows you to see the architecture and contribute to the found
 The demand for a native Mac chess studio is real. In our silent community preview:
 - 📈 **493 Total Clones** in the last 14 days.
 - 👤 **211 Unique Developers/Players** have deployed this from their terminals.
-- ⭐ **0 Stars... so far!** 
+- ⭐ **0 Stars... so far!**
+
+<p align="center">
+  <img src="docs/screenshots/github_traffic_mar2026.png" width="600" />
+</p> 
 
 **The Hidden Demand:** If you are one of the 200+ users who cloned the repo but haven't starred it yet—please leave a ⭐ Star! It's the only way we can bypass the "New Project" stigma and hit our next milestone to unlock the AI Coach.
 
@@ -166,6 +170,133 @@ Found a bug? Use our Launch Feedback Form:
 👉 [**Report an Issue / Give Feedback**](https://tally.so/r/jayppa)
 
 ---
+
+
+---
+
+## 🏗️ System Architecture
+
+### Current Architecture (Desktop)
+
+**Stack:** React (Vite) · FastAPI · SQLite · Stockfish 16.1 · PyInstaller (.dmg)
+
+```
+Frontend (React/Vite)           Backend (FastAPI)              External
+┌───────────────────────┐      ┌────────────────────┐      ┌─────────────┐
+│ react-chessboard      │      │ main.py            │      │ Stockfish   │
+│ chess.js (move logic) │─HTTP─│ SQLAlchemy ORM     │      │ 16.1 C++    │
+│ recharts (analytics)  │:8000 │ PGN parser         │──IPC─│ (subprocess)│
+│ react-router-dom      │      │ ECO lookup engine  │      └─────────────┘
+│ 5 pages:              │      │ TWIC web scraper   │
+│  Dashboard            │◄JSON─│ Background tasks   │      ┌─────────────┐
+│  Analysis             │      │ Insights endpoint  │──HTTP─│ TWIC Server │
+│  Database             │      └────────────────────┘      │ (chess news)│
+│  Insights             │              │                    └─────────────┘
+│  Repertoire           │      ┌───────┴────────┐
+└───────────────────────┘      │ SQLite (local) │
+                               │ ~/.macbase/    │
+                               │  macbase.db    │
+                               └────────────────┘
+```
+
+#### How It Works
+
+1. **Frontend**: React SPA (Vite), 5 pages. Uses react-chessboard for board rendering, chess.js for move validation, recharts for charts.
+2. **Backend**: FastAPI bundled via PyInstaller into .dmg. SQLAlchemy ORM with 4 tables stored in local SQLite at ~/.macbase/.
+3. **Stockfish**: C++ engine spawned as subprocess via IPC. Runs on background thread with async event listeners to avoid UI freezing.
+4. **TWIC Sync**: Web scraper fetches latest pro games, parses PGN, bulk-inserts with ECO code enrichment.
+5. **Distribution**: PyInstaller bundles everything into a single .dmg.
+
+#### Current Architecture Diagram
+
+```mermaid
+graph LR
+    A[React SPA] -->|HTTP :8000| B[FastAPI Server]
+    B --> C[(SQLite)]
+    B -->|subprocess IPC| D[Stockfish 16.1]
+    B -->|HTTP scrape| E[TWIC Server]
+    F[PyInstaller] --> G[macbase.dmg]
+```
+
+#### C4 Architecture
+
+| Level | Components |
+|:---|:---|
+| **C1 Context** | User ↔ Macbase ↔ Stockfish ↔ TWIC |
+| **C2 Container** | React UI / FastAPI / SQLite / Stockfish Process |
+| **C3 Component** | database.py / twic_service.py / eco_lookup.py / insights_endpoint.py |
+| **C4 Code** | Game model (15 cols) / RepertoireFolder / TWIC cache (1hr TTL) |
+
+#### Key Challenges Solved
+
+1. **UI Freeze**: Stockfish takes 2-10s per position. Background thread + async event listener pushes results without blocking render.
+2. **PyInstaller stdout Crash**: macOS windowed apps have no stdout. Redirected to temp log on frozen app detection.
+3. **PGN at Scale**: TWIC issues contain 2000+ games. Chunked transactions + binary ECO lookup.
+
+---
+
+### Production Architecture (Cloud-Native Vision)
+
+**Vision:** Single-user Mac app → multi-user cloud platform with real-time AI coaching
+
+| Aspect | Current | Cloud-Native | Why |
+|:---|:---|:---|:---|
+| **Frontend** | React in PyInstaller | React PWA | Cross-platform |
+| **Backend** | Single FastAPI | FastAPI + Celery on K8s | Scale across users |
+| **Database** | SQLite local | PostgreSQL + Redis | Multi-user |
+| **Engine** | Local subprocess | Stockfish worker pool | Shared resources |
+| **Real-time** | HTTP polling | WebSocket + Redis Pub/Sub | Live board sync |
+| **AI Coach** | Roadmap | Claude/Gemini via LangGraph | NL game review |
+
+#### Real-time Analysis Flow
+
+1. User moves piece → WebSocket → FastAPI Gateway
+2. Gateway publishes position to Redis Pub/Sub
+3. Stockfish Worker Pool picks up job (K8s auto-scaled)
+4. Result → Redis → WebSocket push → UI updates in real-time
+5. Positions cached in Redis LRU — repeats return in <10ms
+
+#### AI Coach Flow (Neural Link)
+
+1. Game complete → LangGraph pipeline
+2. Router Agent classifies game phase
+3. Retrieval Agent searches user history for patterns
+4. Coach Agent generates personalized improvement plan
+
+#### Production Architecture Diagram
+
+```mermaid
+graph TD
+    subgraph Client
+        A[React PWA] -->|WebSocket| B[API Gateway]
+    end
+
+    subgraph Backend
+        B --> C[FastAPI x3]
+        C --> D[(PostgreSQL)]
+        C --> E[(Redis Pub/Sub)]
+    end
+
+    subgraph Engine
+        E --> F[Stockfish Worker 1]
+        E --> G[Stockfish Worker 2]
+        E --> H[Stockfish Worker N]
+        F --> E
+    end
+
+    subgraph AI
+        C --> I[LangGraph Pipeline]
+        I --> J[Pattern Retriever]
+        I --> K[Coach Agent]
+        J --> D
+        K --> C
+    end
+
+    subgraph Ingestion
+        L[TWIC Cron] --> M[PGN Parser]
+        M --> D
+    end
+```
 
 ## 🙏 Credits
 - **Game Data:** [The Week in Chess (TWIC)](https://theweekinchess.com/)
