@@ -162,6 +162,85 @@ graph LR
 2. **PyInstaller stdout Crash**: macOS windowed apps have no stdout. Redirected to temp log on frozen app detection.
 3. **PGN at Scale**: TWIC issues contain 2000+ games. Chunked transactions + binary ECO lookup.
 
+### Cross-Process Communication Patterns
+
+Macbase implements three distinct inter-process listening patterns, each chosen to match the specific communication requirements at that layer:
+
+#### Pattern 1: Frontend → Backend Status Polling
+
+The TWIC import is a long-running operation (downloading and parsing 2,000+ games). The frontend initiates the import and then **polls the backend every second** for progress updates:
+
+```
+Dashboard.jsx (port 5173)          FastAPI (port 8000)
+     │                                   │
+     ├── POST /fetch-twic/1573 ──────►  BackgroundTask starts
+     │                                   │ import_status[1573] = "processing"
+     │                                   │
+     ├── GET /import-status/1573 ◄────  {"status": "processing", "progress": "500 games"}
+     │   (setInterval 1000ms)            │
+     ├── GET /import-status/1573 ◄────  {"status": "processing", "progress": "1200 games"}
+     │                                   │
+     ├── GET /import-status/1573 ◄────  {"status": "success", "message": "2041 games imported"}
+     │   clearInterval() ✅              │
+     └── Auto-refresh dashboard          │
+```
+
+**Why polling instead of WebSocket?** This is a single-user desktop app. WebSocket adds connection management complexity for zero benefit when there's only one client. Polling at 1s intervals is simple, reliable, and provides smooth UX for progress tracking.
+
+#### Pattern 2: Backend → Stockfish Engine IPC
+
+The Stockfish chess engine is a compiled C++ binary that communicates via the [UCI protocol](https://en.wikipedia.org/wiki/Universal_Chess_Interface) over stdin/stdout. The backend spawns it as a subprocess and **listens to its output stream** for analysis results:
+
+```
+FastAPI                              Stockfish 16.1 (C++ subprocess)
+  │                                        │
+  ├── stdin.write("position fen ...") ──►  │ (receives position)
+  ├── stdin.write("go depth 20")    ──►  │ (starts calculating)
+  │                                        │
+  │  ◄── stdout: "info depth 12 score cp 45 pv e2e4 e7e5..."
+  │  ◄── stdout: "info depth 15 score cp 52 pv d2d4 d7d5..."
+  │  ◄── stdout: "info depth 20 score cp 48 pv e2e4 c7c5..."
+  │  ◄── stdout: "bestmove e2e4"    ◄──  │ (calculation complete)
+  │                                        │
+  └── Parse + push to UI                  │
+```
+
+**Why subprocess IPC instead of gRPC/TCP?** Stockfish exclusively speaks UCI over stdin/stdout. This is not a design choice — it's the only way to integrate with the engine. The real challenge is keeping this non-blocking: the engine takes 2-10 seconds per position, so all analysis runs on a background thread with async event-driven result pushing to prevent UI freezing.
+
+#### Pattern 3: Async Worker with Shared State
+
+The backend uses FastAPI's `BackgroundTasks` to run long operations without blocking API responses. A shared in-memory dictionary acts as the communication channel between the worker and the status endpoint:
+
+```python
+# Shared state (acts as a lightweight in-memory message bus)
+import_status: Dict[int, Dict] = {}
+
+# Worker writes progress (producer)
+def import_twic_background(issue_number):
+    import_status[issue_number] = {"status": "processing", "progress": "Starting..."}
+    for count, game in enumerate(games):
+        import_status[issue_number]["progress"] = f"{count} games imported"
+    import_status[issue_number] = {"status": "success"}
+
+# API reads progress (consumer)  
+@app.get("/api/import-status/{issue}")
+def get_status(issue): return import_status.get(issue)
+```
+
+**Why a Python dict instead of Redis?** Single-process, single-user desktop app. An in-memory dictionary provides sub-microsecond reads with zero infrastructure. Redis would add a separate process, a TCP connection, serialization overhead, and a new failure mode — all for a dictionary that holds at most 5 entries. This is the right tool at this scale.
+
+#### Engineering Philosophy
+
+| Decision | What I Chose | Over-Engineered Alternative | Why My Choice Is Correct |
+|:---|:---|:---|:---|
+| Status updates | HTTP polling (1s) | WebSocket | Single user, no concurrent clients |
+| Engine comms | subprocess IPC | gRPC service | Stockfish only speaks UCI via stdio |
+| State sharing | In-memory dict | Redis + Celery | Single process, <5 concurrent keys |
+| Parallel fetch | ThreadPoolExecutor | Kafka consumer group | 5 concurrent HTTP requests, not a stream |
+
+**The pattern**: always use the simplest mechanism that solves the problem at the current scale. Over-engineering a desktop app with distributed infrastructure is a worse technical decision than using straightforward IPC and polling.
+
+
 ---
 
 ### Production Architecture (Cloud-Native Vision)
